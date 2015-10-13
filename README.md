@@ -50,11 +50,11 @@ the builder can be passed as an argument to the closure:
 HtmlMaker = require 'html-maker'
 view = (html) ->
   html.h1 'Greetings'
-  html.div class: 'x', =>
+  html.div class: 'x', ->
     html.span class: 'first', 'hi'
     html.span class: 'second', 'there!'
   html.p 'paragraph'
-  html.p =>
+  html.p ->
     html.text 'yet'
     html.b 'another'
     html.text 'paragrah'

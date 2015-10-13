@@ -28,11 +28,11 @@ describe 'HtmlMaker', ->
   it "should generate html passign the builder as an argument", ->
     view = (_) ->
       _.h1 'Greetings'
-      _.div class: 'x', =>
+      _.div class: 'x', ->
         _.span class: 'first', 'hi'
         _.span class: 'second', 'there!'
       _.p 'paragraph'
-      _.p =>
+      _.p ->
         _.text 'yet'
         _.b 'another'
         _.text 'paragrah'
