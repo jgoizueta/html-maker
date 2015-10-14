@@ -2,6 +2,7 @@
 
  Minimalistic HTML builder based on
 [space-pen](https://github.com/atom-archive/space-pen).
+Intended to be used from CoffeeScript.
 
 ## Installation
 
@@ -59,4 +60,25 @@ view = (html) ->
     html.b 'another'
     html.text 'paragrah'
 html = HtmlMaker.render view
+```
+
+This form is more amenable to be used from JavaScript, but
+still not as nice:
+
+```javascript
+var Maker = require('html-maker');
+var view = function(html) {
+  html.h1( 'Greetings' );
+  html.div({ class: 'x' }, function() {
+    html.span({ class: 'first' },  'hi' );
+    html.span({ class: 'second' }, 'there!' );
+  });
+  html.p( 'paragraph' );
+  html.p(function() {
+    html.text( 'yet' );
+    html.b( 'another' );
+    html.text( 'paragrah' );
+  });
+};
+var html = Maker.render(view);
 ```
