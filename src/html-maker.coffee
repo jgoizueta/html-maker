@@ -59,14 +59,14 @@ Tags =
 class Maker
   @render: (view) ->
     builder = new Maker()
-    builder.render view
+    if view.length == 1
+      view builder
+    else
+      builder.render view
     builder.buildHtml()
 
-  render: (view) ->
-    if view.length == 1
-      view this
-    else
-      view.call this
+  render: (view, args...) ->
+    view.call this, args...
 
   constructor: ->
     @document = []

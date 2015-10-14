@@ -25,7 +25,7 @@ describe 'HtmlMaker', ->
      html = HtmlMaker.render view
      assert.equal html, ref_html
 
-  it "should generate html passign the builder as an argument", ->
+  it "should generate html passing the builder as an argument", ->
     view = (_) ->
       _.h1 'Greetings'
       _.div class: 'x', ->
@@ -71,20 +71,3 @@ describe 'HtmlMaker', ->
       @div 'This is the text', class: 'cls1', id: 'id1'
     html = HtmlMaker.render view
     assert.equal html, '<div class="cls1" id="id1">This is the text</div>'
-
-  it "should render subviews", ->
-    subview = ->
-      @div 'subview'
-    view = ->
-      @div class: 'wrapper', =>
-        @render subview
-    html = HtmlMaker.render view
-    assert.equal html, '<div class="wrapper"><div>subview</div></div>'
-
-    subview = ->
-      @div 'subview'
-    view = ->
-      @div class: 'before'
-      @render subview
-    html = HtmlMaker.render view
-    assert.equal html, '<div class="before"></div><div>subview</div>'
