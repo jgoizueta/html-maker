@@ -36,7 +36,7 @@ describe 'HtmlMaker', ->
     view = (M) ->
       M.div class: 'wrapper', ->
         subview M
-    html = HtmlMaker.render view
+    html = HtmlMaker.render_external view
     assert.equal html, '<div class="wrapper"><div>subview</div></div>'
 
     subview = (M, param) ->
@@ -44,5 +44,5 @@ describe 'HtmlMaker', ->
     view = (M) ->
       M.div class: 'wrapper', ->
         subview M, 'xyz'
-    html = HtmlMaker.render view
+    html = HtmlMaker.render_external view
     assert.equal html, '<div class="wrapper"><div>subview xyz</div></div>'

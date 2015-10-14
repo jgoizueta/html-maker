@@ -45,7 +45,8 @@ The generated HTML text will be as follows (albeit without the indentation):
 
 Instead of evaluating the html-building closure in the
 scope of an HtmlMaker (i.e. having the builder in `this`),
-the builder can be passed as an argument to the closure:
+the builder can be passed as an argument to the closure
+by using `render_external` instead of `render`:
 
 ```coffee
 HtmlMaker = require 'html-maker'
@@ -59,7 +60,7 @@ view = (html) ->
     html.text 'yet'
     html.b 'another'
     html.text 'paragrah'
-html = HtmlMaker.render view
+html = HtmlMaker.render_external view
 ```
 
 This form is more amenable to be used from JavaScript, but
@@ -80,5 +81,5 @@ var view = function(html) {
     html.text( 'paragrah' );
   });
 };
-var html = Maker.render(view);
+var html = Maker.render_external(view);
 ```

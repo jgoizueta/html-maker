@@ -57,12 +57,22 @@ Tags =
    input keygen link meta param source track wbr'.split /\s+/
 
 class Maker
-  @render: (view) ->
+  # Execute the `view` function to render html passing the provided
+  # arguments, if any. The HTML builder object is injected as `this`
+  # to the function, so we'll consider this an *implicit* or *internal*
+  # render.
+  @render: (view, args...) ->
     builder = new Maker()
-    if view.length == 1
-      view builder
-    else
-      builder.render view
+    builder.render view, args...
+    builder.buildHtml()
+
+  # Execute the `view` function to render html passing the provided
+  # arguments, preceded by the HTML builder as a regular argument.
+  # We'll call this an *explicit* or *external* render since
+  # the function's `this` is not altered.
+  @render_external: (view, args...) ->
+    builder = new Maker()
+    view builder, args...
     builder.buildHtml()
 
   render: (view, args...) ->

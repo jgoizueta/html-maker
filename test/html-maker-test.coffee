@@ -36,7 +36,7 @@ describe 'HtmlMaker', ->
         _.text 'yet'
         _.b 'another'
         _.text 'paragrah'
-     html = HtmlMaker.render view
+     html = HtmlMaker.render_external view
      assert.equal html, ref_html
 
   it "should escape text", ->
@@ -71,3 +71,31 @@ describe 'HtmlMaker', ->
       @div 'This is the text', class: 'cls1', id: 'id1'
     html = HtmlMaker.render view
     assert.equal html, '<div class="cls1" id="id1">This is the text</div>'
+
+  it "should accept builder functions with arguments", ->
+    view = (title, paragraph) ->
+      @h1 title
+      @div class: 'x', =>
+        @span class: 'first', 'hi'
+        @span class: 'second', 'there!'
+      @p paragraph
+      @p =>
+        @text 'yet'
+        @b 'another'
+        @text 'paragrah'
+     html = HtmlMaker.render view, 'Greetings', 'paragraph'
+     assert.equal html, ref_html
+
+  it "should accept...", ->
+    view = (_, title, paragraph) ->
+      _.h1 title
+      _.div class: 'x', ->
+        _.span class: 'first', 'hi'
+        _.span class: 'second', 'there!'
+      _.p paragraph
+      _.p ->
+        _.text 'yet'
+        _.b 'another'
+        _.text 'paragrah'
+     html = HtmlMaker.render_external view, 'Greetings', 'paragraph'
+     assert.equal html, ref_html
