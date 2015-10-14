@@ -1,6 +1,6 @@
 {
   "name": "html-maker",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Yet another HTML builder",
   "main": "lib/html-maker.js",
   "directories": {
