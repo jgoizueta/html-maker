@@ -106,7 +106,12 @@ class Maker
 
     attributePairs =
       for attributeName, value of attributes when value?
-        "#{attributeName}=\"#{value}\""
+        if  attributeName == 'data' && typeof(value) == 'object'
+          (for dataName, dataValue of value when dataValue?
+             "#{attributeName}-#{dataName}=\"#{dataValue}\""
+          ).join(" ")
+        else
+          "#{attributeName}=\"#{value}\""
 
     attributesString =
       if attributePairs.length
