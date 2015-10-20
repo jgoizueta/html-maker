@@ -56,6 +56,16 @@ Tags =
    th thead time title tr u ul var video area base br col command embed hr img
    input keygen link meta param source track wbr'.split /\s+/
 
+dasherize = (string) ->
+  return '' unless string
+
+  string = string[0].toLowerCase() + string[1..]
+  string.replace /([A-Z])|(_)/g, (m, letter) ->
+    if letter
+      "-" + letter.toLowerCase()
+    else
+      "-"
+
 class Maker
   # Execute the `view` function to render html passing the provided
   # arguments, if any. The HTML builder object is injected as `this`
@@ -108,7 +118,7 @@ class Maker
       for attributeName, value of attributes when value?
         if  attributeName == 'data' && typeof(value) == 'object'
           (for dataName, dataValue of value when dataValue?
-             "#{attributeName}-#{dataName}=\"#{dataValue}\""
+             "#{attributeName}-#{dasherize dataName}=\"#{dataValue}\""
           ).join(" ")
         else
           "#{attributeName}=\"#{value}\""
