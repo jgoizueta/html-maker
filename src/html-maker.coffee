@@ -120,6 +120,11 @@ class Maker
           (for dataName, dataValue of value when dataValue?
              "#{attributeName}-#{dasherize dataName}=\"#{dataValue}\""
           ).join(" ")
+        else if  attributeName == 'style' && typeof(value) == 'object'
+          style = (for dataName, dataValue of value when dataValue?
+             "#{dasherize dataName}: #{dataValue}"
+          ).join("; ")
+          "style=\"#{style}\""
         else
           "#{attributeName}=\"#{value}\""
 
