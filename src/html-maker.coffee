@@ -105,11 +105,11 @@ class Maker
     if SelfClosingTags.hasOwnProperty(name)
       if options.text? or options.content?
         throw new Error("Self-closing tag #{name} cannot have text or content")
+      @endTag(name)
     else
       options.content?()
       @text(options.text) if options.text
       @closeTag(name)
-    @endTag(name)
 
   openTag: (name, attributes) ->
     if @document.length is 0
