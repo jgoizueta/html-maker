@@ -144,21 +144,62 @@ Data attributes can be defined in a single `data` object:
 
 ```coffee
 card = (name, address) ->
-  @div data: { name: name, address: address }, =>
+  @div data: { name: name, city: city }, =>
     @text name
-console.log HtmlMaker.render card, 'John', 'Maryland'
+console.log HtmlMaker.render card, 'John', 'Springfield'
 ```
 
 Result:
 
 ```html
-<div data-name="John" data-address="Maryland">John</div>
+<div data-name="John" data-city="Springfield">John</div>
 ```
 
 Which is equivalent to:
 
 ```coffee
-card = (name, address) ->
-  @div 'data-name': name, 'data-address': address, =>
+card = (name, city) ->
+  @div 'data-name': name, 'data-city': address, =>
     @text name
+```
+
+Note that data attribute names can use camelCase:
+
+```coffee
+card = (name) ->
+  @div data: { personName: name }, =>
+    @text name
+console.log HtmlMaker.render card, 'John'
+```
+
+And they will be automaticalley dasherized:
+
+```html
+<div data-person-name="John">John</div>
+```
+
+### Style attributes
+
+Like `data`, `style` attributes can be defined with an object
+(and property names can be camelized as well):
+
+```coffee
+card = (name) ->
+  @div name,
+    data: { personName: name }
+    style:
+      textAlign:  'center',
+      lineHeight: '100px'
+      border:     '10px solid blue'
+console.log HtmlMaker.render card, 'John'
+```
+
+The result (formatted for convenience):
+
+```html
+<div
+  data-person-name="John"
+  style="text-align: center; line-height: 100px; border: 10px solid blue">
+  John
+</div>
 ```
