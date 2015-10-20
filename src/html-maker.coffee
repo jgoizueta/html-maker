@@ -72,18 +72,18 @@ class Maker
   # to the function, so we'll consider this an *implicit* or *internal*
   # render.
   @render: (view, args...) ->
-    builder = new Maker()
+    builder = new this()
     builder.render view, args...
-    builder.buildHtml()
+    builder.build()
 
   # Execute the `view` function to render html passing the provided
   # arguments, preceded by the HTML builder as a regular argument.
   # We'll call this an *explicit* or *external* render since
   # the function's `this` is not altered.
   @render_external: (view, args...) ->
-    builder = new Maker()
+    builder = new this()
     view builder, args...
-    builder.buildHtml()
+    builder.build()
 
   render: (view, args...) ->
     view.call this, args...
@@ -91,7 +91,7 @@ class Maker
   constructor: ->
     @document = []
 
-  buildHtml: ->
+  build: ->
     @document.join('')
 
   Tags.forEach (tagName) ->
@@ -109,6 +109,7 @@ class Maker
       options.content?()
       @text(options.text) if options.text
       @closeTag(name)
+    @endTag(name)
 
   openTag: (name, attributes) ->
     if @document.length is 0
@@ -139,6 +140,12 @@ class Maker
   closeTag: (name) ->
     @document.push "</#{name}>"
 
+  endTag: (name) ->
+    ;
+
+  rawText: (string) ->
+    @document.push string
+
   text: (string) ->
     if string
       escapedString = string
@@ -147,10 +154,10 @@ class Maker
         .replace(/'/g, '&#39;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
-      @document.push escapedString
+      @rawText escapedString
 
   raw: (string) ->
-    @document.push string
+    @rawText string
 
   extractOptions: (args) ->
     options = {}
