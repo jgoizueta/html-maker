@@ -99,3 +99,23 @@ describe 'HtmlMaker', ->
         _.text 'paragrah'
      html = HtmlMaker.render_external view, 'Greetings', 'paragraph'
      assert.equal html, ref_html
+
+   it "should preserve raw text", ->
+     assert.equal '<', HtmlMaker.render -> @raw '<'
+     assert.equal '>', HtmlMaker.render -> @raw '>'
+     assert.equal '<<', HtmlMaker.render -> @raw '<<'
+     assert.equal 'abc<>&\'\"xyz', HtmlMaker.render -> @raw 'abc<>&\'\"xyz'
+     assert.equal '<p>abc</p>', HtmlMaker.render -> @raw '<p>abc</p>'
+     assert.equal '&', HtmlMaker.render -> @raw '&'
+     assert.equal '&amp;', HtmlMaker.render -> @raw '&amp;'
+     assert.equal '&times;', HtmlMaker.render -> @raw '&times;'
+
+   it "should sanitize text", ->
+     assert.equal '&lt;', HtmlMaker.render -> @text '<'
+     assert.equal '&gt;', HtmlMaker.render -> @text '>'
+     assert.equal '&lt;&lt;', HtmlMaker.render -> @text '<<'
+     assert.equal 'abc&lt;&gt;&amp;&#39;&quot;xyz', HtmlMaker.render -> @text 'abc<>&\'\"xyz'
+     assert.equal '&lt;p&gt;abc&lt;/p&gt;', HtmlMaker.render -> @text '<p>abc</p>'
+     assert.equal '&amp;', HtmlMaker.render -> @text '&'
+     assert.equal '&amp;amp;', HtmlMaker.render -> @text '&amp;'
+     assert.equal '&amp;times;', HtmlMaker.render -> @text '&times;'
