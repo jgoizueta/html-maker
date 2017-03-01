@@ -160,7 +160,14 @@ class Maker
     @rawText string
 
   extractOptions: (args) ->
-    options = {}
+    options = {attributes:{}}
+    if typeof(args[0]) is 'string'
+      for item in args.shift().split(/(?=[#\.])/)
+        switch item[0]
+          when '#'
+            options.attributes.id = item.slice(1)
+          when '.'
+            options.attributes.class = (options.attributes.class || '') + " #{item.slice(1)}"
     for arg in args
       switch typeof(arg)
         when 'function'
@@ -168,7 +175,10 @@ class Maker
         when 'string', 'number'
           options.text = arg.toString()
         else
-          options.attributes = arg
+          options.attributes[k] = v for k,v of arg
     options
-
-module.exports = Maker
+  
+if typeof module?.exports is 'undefined'
+  @HtmlMaker = Maker
+else
+  module.exports = Maker
